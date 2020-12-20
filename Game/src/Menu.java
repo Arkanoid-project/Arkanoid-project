@@ -4,12 +4,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class Menu extends JFrame implements MouseListener {
-    public final int Frame_HEIGHT=640;
-    public final int Frame_WIDTH=810;
-    public final int Btn_WIDTH=205;
-    public final int Btn_HEIGHT=110;
+    public final int Frame_HEIGHT=600;
+    public final int Frame_WIDTH=800;
+
 
     public final Dimension My_Dimension=new Dimension(Frame_WIDTH,Frame_HEIGHT);
+
 
     JButton Start_btn=new JButton();
     JButton Settings_btn=new JButton();
@@ -22,6 +22,7 @@ public class Menu extends JFrame implements MouseListener {
     JLabel Background_label=new JLabel("",BackGround,JLabel.CENTER);
 
         public Menu(){
+
         this.setTitle("Arkanoid");
         this.setSize(My_Dimension);
         this.setResizable(true);
@@ -31,10 +32,9 @@ public class Menu extends JFrame implements MouseListener {
         this.getContentPane().setBackground(Color.BLACK);
         this.setLayout(null);
 
-        Background_label.setBounds(-10,-18,Frame_WIDTH,Frame_HEIGHT);
+        Background_label.setBounds(-10,-20,Frame_WIDTH,Frame_HEIGHT);
 
-        Start_btn.setBounds(386,461,Btn_WIDTH,Btn_HEIGHT);
-        Start_btn.setMaximumSize(new Dimension(Btn_WIDTH,Btn_HEIGHT));
+        Start_btn.setBounds(366,451,205,110);
 
         Start_btn.setBorderPainted(false);
         Start_btn.setFocusPainted(false);
@@ -46,8 +46,7 @@ public class Menu extends JFrame implements MouseListener {
 
 
 
-        Settings_btn.setBounds(686,113,100,80);
-        Settings_btn.setMaximumSize(new Dimension(Btn_WIDTH,Btn_HEIGHT));
+        Settings_btn.setBounds(666,113,100,80);
 
         Settings_btn.setBorderPainted(false);
         Settings_btn.setFocusPainted(false);
@@ -57,8 +56,7 @@ public class Menu extends JFrame implements MouseListener {
         Settings_btn.setFocusPainted(false);
         Settings_btn.setOpaque(false);
 
-        Exit_btn.setBounds(686,230,100,82);
-        Exit_btn.setMaximumSize(new Dimension(Btn_WIDTH,Btn_HEIGHT));
+        Exit_btn.setBounds(666,220,100,82);
 
         Exit_btn.setBorderPainted(false);
         Exit_btn.setFocusPainted(false);
@@ -105,9 +103,9 @@ public class Menu extends JFrame implements MouseListener {
 
             System.out.println("BigExit");
         }else{
-            Start_btn.setBounds(386,461,Btn_WIDTH,Btn_HEIGHT);
-            Settings_btn.setBounds(686,220,100,80);
-            Exit_btn.setBounds(686,342,100,82);
+            Start_btn.setBounds(366,451,205,110);
+            Settings_btn.setBounds(666,113,100,80);
+            Exit_btn.setBounds(666,220,100,82);
 
         }
     }
