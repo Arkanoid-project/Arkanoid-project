@@ -74,6 +74,7 @@ public class Menu extends JFrame implements MouseListener {
                 Exit_btn.setBorderPainted(false);
                 Exit_btn.addMouseListener(this);
                 Exit_btn.setIcon(Exit_img);
+                //set button to transparent
                 Exit_btn.setBackground(Color.black);
                 Exit_btn.setFocusPainted(false);
                 Exit_btn.setOpaque(false);
