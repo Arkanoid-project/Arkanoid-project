@@ -92,6 +92,8 @@ public class Menu extends JFrame implements MouseListener {
                 //settings panel
                 settings_panel.setBounds(0,0,Frame_WIDTH,Frame_HEIGHT);
                 settings_panel.setBackground(Color.GREEN);
+                MySlider slider = new MySlider();
+
             }
             case 3->{
                 //scoreboard panel
