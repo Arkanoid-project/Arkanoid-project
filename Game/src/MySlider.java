@@ -13,7 +13,7 @@ public class MySlider implements ChangeListener {
     {
         label = new JLabel();
         slider = new JSlider(0,100,50);
-        //frame = new JFrame();
+        frame = new JFrame();
         panel = new JPanel();
 
         slider.setPreferredSize(new Dimension(800,600));
