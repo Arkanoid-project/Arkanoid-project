@@ -1,4 +1,5 @@
 /*
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -70,20 +71,16 @@ public class MySlider implements ChangeListener {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(slider2,gbc);
 
-
-
-
         //GroupLayout layout = new GroupLayout(panel);
         // layout.setAutoCreateGaps(true);
         //layout.setAutoCreateContainerGaps(true);
         // panel.setLayout(layout);
         // layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(slider).addComponent(slider2));
         //layout.createParallelGroup((GroupLayout.Alignment.LEADING).);
-
-
     }
     @Override
     public void stateChanged(ChangeEvent e) {
 
     }
-}*/
+}
+*/

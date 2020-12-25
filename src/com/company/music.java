@@ -1,5 +1,4 @@
-
-import java.io.InputStream;
+/*import java.io.InputStream;
 import java.net.URL;
 import javax.swing.*;
 import javax.sound.sampled.*;
@@ -24,7 +23,7 @@ public class music {
                 clip.open(sound);
             }
         }
-    }
+    }*/
 
 
 

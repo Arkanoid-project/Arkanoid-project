@@ -1,4 +1,5 @@
-/*import javax.swing.*;
+/*
+import javax.swing.*;
 
 public class myframe extends JFrame {
     myframe()
@@ -10,4 +11,5 @@ public class myframe extends JFrame {
         this.setVisible(true);
 
     }
-}*/
+}
+*/
