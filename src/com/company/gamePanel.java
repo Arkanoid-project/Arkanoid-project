@@ -166,7 +166,7 @@ public class gamePanel extends JPanel implements Runnable{
                 for (int j =0;j<lvl1.currentLvlBlock[i].length;j++) {
                     Rectangle blockCollider = new Rectangle(lvl1.currentLvlBlock[i][j].px,lvl1.currentLvlBlock[i][j].py,lvl1.currentLvlBlock[i][j].getBlockWidth(),lvl1.currentLvlBlock[i][j].getBlockHeight());
                     if(ballCollider.intersects(blockCollider)) {
-                       // lvl1.currentLvlBlock[i][j].setHealth(lvl1.currentLvlBlock[i][j].getHealth()-1);
+
                         recentP = new powerup(lvl1.currentLvlBlock[i][j]);
                         if(lvl1.currentLvlBlock[i][j].has_powerup){
                             P[num_of_powerups] = new powerup(lvl1.currentLvlBlock[i][j]);
@@ -175,7 +175,7 @@ public class gamePanel extends JPanel implements Runnable{
                         }
                         isInversed = false;
                         liveScore += 5;
-                        //will be using gethealth to set health of the blocks and not hide them right after the collision
+                       // lvl1.currentLvlBlock[i][j].setHealth(lvl1.currentLvlBlock[i][j].getHealth()-1);
                         lvl1.currentLvlBlock[i][j].setBlockShape(0);
                         selectedLvl[Level.current_lvl].lvl[i][j] = 0;
                         if((ballCollider.x + ballCollider.getWidth()-2 <= blockCollider.getX()
@@ -190,9 +190,12 @@ public class gamePanel extends JPanel implements Runnable{
                  }
             }
         for(int i =0;i<num_of_powerups;i++) {
-            Rectangle pwr_collider = new Rectangle(P[i].Px,P[i].Py,P[i].width,P[i].height);
-                if(P[i].intersects(paddleCollider)){
-                    P[i].Py=5100;
+
+                if(P[i].Px+P[i].width<=paddleCollider.x+paddleCollider.width&&P[i].Px>=paddleCollider.x){
+                    if(P[i].Py+P[i].height>=paddleCollider.y){
+                        P[i].Py=100;
+                    System.out.println("collide");
+                    }
                 }
             }
     }
