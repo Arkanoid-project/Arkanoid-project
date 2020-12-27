@@ -37,23 +37,26 @@ public class Menu implements MouseListener, MouseMotionListener {
         BigStart =new ImageIcon("Start_buttonBig.png").getImage();
     }
     public void draw(Graphics2D g){
-        g.drawImage(BackGround,0,0,null);
-        g.drawImage(Start_img,btn_positions[0][0],btn_positions[0][1],null);
-        g.drawImage(Setting_btn,btn_positions[1][0], btn_positions[1][1],null);
-        g.drawImage(Score_btn,btn_positions[2][0], btn_positions[2][1],null);
-        g.drawImage(Exit_btn,btn_positions[3][0], btn_positions[3][1],null);
-        if(entered[0]){
+        if(live_index==0){
 
-            g.drawImage(BigStart,btn_positions[0][0],btn_positions[0][1],null);
-        }else if (entered[1]){
+            g.drawImage(BackGround,0,0,null);
+            g.drawImage(Start_img,btn_positions[0][0],btn_positions[0][1],null);
+            g.drawImage(Setting_btn,btn_positions[1][0], btn_positions[1][1],null);
+            g.drawImage(Score_btn,btn_positions[2][0], btn_positions[2][1],null);
+            g.drawImage(Exit_btn,btn_positions[3][0], btn_positions[3][1],null);
+                if(entered[0]){
 
-            g.drawImage(BigSettings,btn_positions[1][0], btn_positions[1][1],null);
-        }else if(entered[2]){
+                    g.drawImage(BigStart,btn_positions[0][0],btn_positions[0][1],null);
+                }else if (entered[1]){
 
-            g.drawImage(BigScore,btn_positions[2][0], btn_positions[2][1],null);
-        }else if(entered[3]){
+                    g.drawImage(BigSettings,btn_positions[1][0], btn_positions[1][1],null);
+                }else if(entered[2]){
 
-            g.drawImage(BigExit,btn_positions[3][0], btn_positions[3][1],null);
+                    g.drawImage(BigScore,btn_positions[2][0], btn_positions[2][1],null);
+                }else if(entered[3]){
+
+                    g.drawImage(BigExit,btn_positions[3][0], btn_positions[3][1],null);
+            }
         }
     }
 
@@ -73,6 +76,7 @@ public class Menu implements MouseListener, MouseMotionListener {
        if (e.getX()< Setting_btn.getWidth(null)+666 && e.getX()>666){
            if(e.getY()< Setting_btn.getHeight(null)+143 && e.getY() > 113){
                System.out.println("Settings");
+               live_index=2;
            }
 
         }

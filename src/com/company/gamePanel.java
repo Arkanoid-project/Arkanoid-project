@@ -1,5 +1,7 @@
 package com.company;
 
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -10,6 +12,7 @@ public class gamePanel extends JPanel implements Runnable{
     final int GameHeight=600;
     final int menuindex = 0;
     final int gameindex = 1;
+    final int settingsindex=2;
     public int live_index = 0;
     int lives = 3;
     int liveScore=0;
@@ -85,6 +88,9 @@ public class gamePanel extends JPanel implements Runnable{
                 }
                 }
 
+        }else if(live_index==settingsindex){
+            g2d.fillRect(15,15,800,600);
+            g2d.dispose();
         }
     }
 
