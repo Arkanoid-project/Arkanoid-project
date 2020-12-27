@@ -7,8 +7,8 @@ public class Level {
 
     int x = 140;
     int y = 82;
-Block currentLvlBlock[][];
-levels selectedlevel;
+    Block[][] currentLvlBlock;
+    levels selectedlevel;
 
     Level(levels selectedlevel) {
         this.selectedlevel = selectedlevel;
@@ -26,6 +26,7 @@ levels selectedlevel;
                     currentLvlBlock[i][j].setHealth(selectedlevel.lvl[i][j]);
                     currentLvlBlock[i][j].setBlockShape(selectedlevel.lvl[i][j]);
                     currentLvlBlock[i][j].setBlockPosition(x + (currentLvlBlock[i][j].getBlockWidth() * j), y + (currentLvlBlock[i][j].getBlockHeight() * i));
+
                 x += 7;
             }
                 x = 140;
@@ -45,7 +46,7 @@ levels selectedlevel;
 
 }
 class levels{
-    int lvl[][];
+    int[][] lvl;
     levels(){
         lvl = new int[8][8];
     }

@@ -11,12 +11,17 @@ public class gamePanel extends JPanel implements Runnable{
     final int menuindex = 0;
     final int gameindex = 1;
     public int live_index = 0;
-           int lives = 3;
-          int liveScore=0;
+    int lives = 3;
+    int liveScore=0;
+    //power up
+    boolean powerup_here=false;
+    powerup []P=new powerup[15];
+    powerup recentP;
+    int num_of_powerups=0;
 
     Menu gameMenu;
     Image backg;
-    Image healthImage[];
+    Image[] healthImage;
     Paddle paddle;
     Ball ball;
     Thread GameThread;
@@ -24,7 +29,7 @@ public class gamePanel extends JPanel implements Runnable{
     Dimension gameSize;
 
     Level lvl1;
-    levels selectedLvl[];
+    levels[] selectedLvl;
 
     gamePanel(){
         gameMenu = new Menu(live_index);
@@ -72,6 +77,14 @@ public class gamePanel extends JPanel implements Runnable{
             paddle.draw(g2d);
             lvl1.draw(g2d);
             ball.draw(g2d);
+            if(powerup_here){
+                for (int i=0;i<num_of_powerups;i++) {
+
+                        P[i].draw(g);
+
+                }
+                }
+
         }
     }
 
@@ -104,6 +117,7 @@ public class gamePanel extends JPanel implements Runnable{
         Rectangle paddleCollider = new Rectangle(paddle.paddle_xp, paddle.paddle_yp, paddle.paddleImage.getWidth(null), paddle.paddleImage.getHeight(null));
         Rectangle ballCollider = new Rectangle(ball.ball_xp, ball.ball_yp, ball.ballImage[0].getWidth(null), ball.ballImage[0].getHeight(null));
         if (paddleCollider.intersects(ballCollider)) {
+
             if(ballCollider.getX()<=paddleCollider.getX()+paddle.paddleImage.getWidth(null)/3) {
                 if (ball.ball_xv >= 0 && !isInversed) {
                     ball.ball_xv = -1;
@@ -139,32 +153,45 @@ public class gamePanel extends JPanel implements Runnable{
                 }
             }
         }
-        //ball with blocks
-    ballCollider = new Rectangle(ball.ball_xp, ball.ball_yp, ball.ballImage[0].getWidth(null), ball.ballImage[0].getHeight(null));
-    for(int i =0;i<lvl1.currentLvlBlock.length;i++) {
-        for (int j =0;j<lvl1.currentLvlBlock[i].length;j++) {
-            Rectangle blockCollider = new Rectangle(lvl1.currentLvlBlock[i][j].px,lvl1.currentLvlBlock[i][j].py,lvl1.currentLvlBlock[i][j].getBlockWidth(),lvl1.currentLvlBlock[i][j].getBlockHeight());
-        if(ballCollider.intersects(blockCollider)) {
-            lvl1.currentLvlBlock[i][j].setBlockShape(0);
-            selectedLvl[Level.current_lvl].lvl[i][j] = 0;
-            isInversed = false;
-            if(ball.ball_xp + ball.ballImage[0].getWidth(null) <= blockCollider.getX() ||
-                    ball.ball_xp >= blockCollider.getX()+blockCollider.getWidth()){
-                ball.ball_xv *= -1;
-                liveScore += 5;
+    //ball with blocks
+
+            A:for(int i =0;i<lvl1.currentLvlBlock.length;i++) {
+                for (int j =0;j<lvl1.currentLvlBlock[i].length;j++) {
+                    Rectangle blockCollider = new Rectangle(lvl1.currentLvlBlock[i][j].px,lvl1.currentLvlBlock[i][j].py,lvl1.currentLvlBlock[i][j].getBlockWidth(),lvl1.currentLvlBlock[i][j].getBlockHeight());
+                    if(ballCollider.intersects(blockCollider)) {
+                       // lvl1.currentLvlBlock[i][j].setHealth(lvl1.currentLvlBlock[i][j].getHealth()-1);
+                        recentP = new powerup(lvl1.currentLvlBlock[i][j]);
+                        if(lvl1.currentLvlBlock[i][j].has_powerup){
+                            P[num_of_powerups] = new powerup(lvl1.currentLvlBlock[i][j]);
+                            powerup_here=true;
+                            num_of_powerups++;
+                        }
+                        isInversed = false;
+                        liveScore += 5;
+                        //will be using gethealth to set health of the blocks and not hide them right after the collision
+                        lvl1.currentLvlBlock[i][j].setBlockShape(0);
+                        selectedLvl[Level.current_lvl].lvl[i][j] = 0;
+                        if((ballCollider.x + ballCollider.getWidth()-2 <= blockCollider.getX()
+                            || ballCollider.x+2 >= blockCollider.getX()+blockCollider.getWidth())){
+                            ball.ball_xv *= -1;
+
+                        }else{
+                            ball.ball_yv *= -1;
+                            break A;
+                        }
+                    }
+                 }
             }
-            if(ball.ball_yp <=blockCollider.getY()+ball.ballImage[0].getHeight(null)
-                || ball.ball_yp >=blockCollider.getY()+blockCollider.getHeight()){
-                ball.ball_yv *= -1;
-                liveScore += 5;
+        for(int i =0;i<num_of_powerups;i++) {
+            Rectangle pwr_collider = new Rectangle(P[i].Px,P[i].Py,P[i].width,P[i].height);
+                if(P[i].intersects(paddleCollider)){
+                    P[i].Py=5100;
+                }
             }
-        }
-        }
     }
 
-    }
     public void setInitialLevelsSeq() {
-        int Tarr[][] = {
+        int[][] Tarr = {
                 {1,0,1,0,0,1,0,1},
                 {1,0,1,0,0,1,0,1},
                 {0,2,0,0,0,0,2,0},
@@ -175,9 +202,7 @@ public class gamePanel extends JPanel implements Runnable{
                 {0,0,0,0,0,0,0,0}
         };
 for(int i=0;i<8;i++){
-    for(int j=0;j<8;j++){
-        selectedLvl[0].lvl[i][j] = Tarr[i][j];
-    }
+    System.arraycopy(Tarr[i], 0, selectedLvl[0].lvl[i], 0, 8);
 }
     }
     // game loop
