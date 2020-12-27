@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class gamePanel extends JPanel implements Runnable{
+public class gamePanel extends JPanel implements Runnable {
     final int GameWidth=800;
     final int GameHeight=600;
     final int menuindex = 0;
@@ -21,7 +21,7 @@ public class gamePanel extends JPanel implements Runnable{
     powerup []P=new powerup[15];
     powerup recentP;
     int num_of_powerups=0;
-
+    Image settingsBG ;
     Menu gameMenu;
     Image backg;
     Image[] healthImage;
@@ -35,6 +35,11 @@ public class gamePanel extends JPanel implements Runnable{
     levels[] selectedLvl;
 
     gamePanel(){
+        // set background image
+        settingsBG=new ImageIcon("settings_BG.jpg").getImage();
+
+
+
         gameMenu = new Menu(live_index);
     //set panel size
         gameSize = new Dimension(GameWidth,GameHeight);
@@ -89,11 +94,15 @@ public class gamePanel extends JPanel implements Runnable{
                 }
 
         }else if(live_index==settingsindex){
-            g2d.fillRect(15,15,800,600);
+            ((Graphics2D) g).drawImage(settingsBG, 0,0, null);
+          //  g2d.fillRect(15,15,800,600);
+            //CustomPaintComponent backGround = new CustomPaintComponent();
+          //  g2d.dispose();
+          settings settingMenu = new settings();
 
-            g2d.dispose();
         }
     }
+
 
     public void move(){
        isInversed = ball.move(isInversed);
