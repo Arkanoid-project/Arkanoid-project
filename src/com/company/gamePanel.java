@@ -90,6 +90,7 @@ public class gamePanel extends JPanel implements Runnable{
 
         }else if(live_index==settingsindex){
             g2d.fillRect(15,15,800,600);
+
             g2d.dispose();
         }
     }
