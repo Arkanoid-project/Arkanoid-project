@@ -6,8 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class gamePanel extends JPanel implements Runnable {
+public abstract class gamePanel extends JPanel implements Runnable {
     final int GameWidth=800;
     final int GameHeight=600;
     final int menuindex = 0;
@@ -22,6 +24,12 @@ public class gamePanel extends JPanel implements Runnable {
     powerup recentP;
     int num_of_powerups=0;
     Image settingsBG ;
+    Image backButton ;
+    Image prv_Button1 ;
+    Image prv_Button2 ;
+    Image nxt_Button1 ;
+    Image nxt_Button2 ;
+
     Menu gameMenu;
     Image backg;
     Image[] healthImage;
@@ -33,11 +41,24 @@ public class gamePanel extends JPanel implements Runnable {
 
     Level lvl1;
     levels[] selectedLvl;
+    int[][] settingsBtns_positions = {
+            {60,50},
+            {0, 280}, // awl next postion Lel ball
+            {0, 280}, //awl perives postion  lel ball
+            {0, 0},
+            {0,0}
+    };
+    boolean []entered_settings_btns={false,false,false,false,false};
 
     gamePanel(){
         // set background image
         settingsBG=new ImageIcon("settings_BG.jpg").getImage();
-
+        // set back button
+        backButton = new ImageIcon("back_Button.png").getImage();
+         prv_Button1 = new ImageIcon("prv_Button1.png").getImage() ;
+         prv_Button2 = new ImageIcon("prv_Button2.png").getImage();
+         nxt_Button1 =  new ImageIcon("next_Button2.png").getImage() ;
+         nxt_Button2 =  new ImageIcon("next_Button3.png").getImage();
 
 
         gameMenu = new Menu(live_index);
@@ -89,16 +110,40 @@ public class gamePanel extends JPanel implements Runnable {
                 for (int i=0;i<num_of_powerups;i++) {
 
                         P[i].draw(g);
-
                 }
                 }
 
         }else if(live_index==settingsindex){
             ((Graphics2D) g).drawImage(settingsBG, 0,0, null);
+
+            g.drawImage(backButton,settingsBtns_positions[0][0],settingsBtns_positions[0][1],null);
+            g.drawImage(prv_Button1,settingsBtns_positions[1][0], settingsBtns_positions[1][1],null);
+            g.drawImage(prv_Button1,settingsBtns_positions[2][0], settingsBtns_positions[2][1],null);
+            g.drawImage(nxt_Button1,settingsBtns_positions[3][0], settingsBtns_positions[3][1],null);
+            g.drawImage(nxt_Button2,settingsBtns_positions[4][0], settingsBtns_positions[4][1],null);
+            
+            if(entered_settings_btns[0]){
+
+                g.drawImage(BigStart,settingsBtns_positions[0][0],settingsBtns_positions[0][1],null);
+            }else if (entered_settings_btns[1]){
+
+                g.drawImage(BigSettings,settingsBtns_positions[1][0], settingsBtns_positions[1][1],null);
+            }else if(entered_settings_btns[2]){
+
+                g.drawImage(BigScore,settingsBtns_positions[2][0], settingsBtns_positions[2][1],null);
+            }else if(entered_settings_btns[3]){
+
+                g.drawImage(BigExit,settingsBtns_positions[3][0], settingsBtns_positions[3][1],null);
+            }
+            else if(entered_settings_btns[4]){
+
+                g.drawImage(BigExit,settingsBtns_positions[4][0], settingsBtns_positions[4][1],null);
+            }
+
           //  g2d.fillRect(15,15,800,600);
             //CustomPaintComponent backGround = new CustomPaintComponent();
           //  g2d.dispose();
-          settings settingMenu = new settings();
+
 
         }
     }
@@ -245,6 +290,8 @@ for(int i=0;i<8;i++){
 
     }
 
+    public abstract void mouseMoved(MouseEvent e);
+
     public class  ActionL extends KeyAdapter {
         public void keyPressed(KeyEvent e){
         paddle.getBallStatus(ball.isBallLaunched);
@@ -256,3 +303,99 @@ paddle.keyReleased(e);
     }
 }
 
+class settings extends gamePanel implements MouseListener {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getX() < backButton.getWidth(null) + 60 && e.getX() > 60) {
+            if (e.getY() < backButton.getHeight(null) + 70 && e.getY() > 50) {
+                System.out.println("Back Button");
+                live_index = 0;
+            }
+        }
+
+        if(e.getX()<Start_img.getWidth(null)+366 && e.getX()>366 ) {
+            if (e.getY()<Start_img.getHeight(null)+481 && e.getY()>451) {
+                System.out.println("Start level");
+                live_index = 1;
+            }
+        }
+        if(e.getX()< Score_btn.getWidth(null)+666 && e.getX()>666) {
+            if (e.getY() < Score_btn.getHeight(null) + 270 && e.getY() > 240) {
+                System.out.println("Score");
+            }
+        }
+        if (e.getX()< Setting_btn.getWidth(null)+666 && e.getX()>666){
+            if(e.getY()< Setting_btn.getHeight(null)+143 && e.getY() > 113){
+                System.out.println("Settings");
+                live_index=2;
+            }
+
+
+        }
+        if(e.getX()< Exit_btn.getWidth(null)+666 && e.getX()>666) {
+            if(e.getY()< Exit_btn.getHeight(null)+390 && e.getY() > 370){
+                System.out.println("Exit");
+            }
+        }
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+        if(e.getX() < backButton.getWidth(null)+366 && e.getX()>366 ) {
+            if (e.getY() < Start_img.getHeight(null)+471 && e.getY()>451) {
+                entered_settings_btns[0]=true;
+            }
+        }
+        if(e.getX()< Score_btn.getWidth(null)+666 && e.getX()>666) {
+            if (e.getY() < Score_btn.getHeight(null) + 270 && e.getY() > 240) {
+                entered_settings_btns[2]=true;
+            }
+        }
+        if (e.getX()< Setting_btn.getWidth(null)+666 && e.getX()>666){
+            if(e.getY()< Setting_btn.getHeight(null)+143 && e.getY() > 113){
+                entered_settings_btns[1]=true;
+            }
+
+        }
+        if(e.getX()< Exit_btn.getWidth(null)+666 && e.getX()>666) {
+            if(e.getY()< Exit_btn.getHeight(null)+390 && e.getY() > 370){
+                entered_settings_btns[3]=true;
+            }
+
+        if(e.getX()< Exit_btn.getWidth(null)+666 && e.getX()>666) {
+            if(e.getY()< Exit_btn.getHeight(null)+390 && e.getY() > 370){
+                entered_settings_btns[4]=true;
+            }
+        }
+        else
+            {
+            entered_settings_btns[0]=false;
+            entered_settings_btns[1]=false;
+            entered_settings_btns[2]=false;
+            entered_settings_btns[3]=false;
+            entered_settings_btns[4]=false;
+
+        }
+    }
+}
