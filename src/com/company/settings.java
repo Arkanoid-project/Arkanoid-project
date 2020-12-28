@@ -5,16 +5,18 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+
 public class settings implements MouseListener {
     Image backButton ;
+     Graphics g;
 
 
-  settings(){
+    settings(){
     backButton = new ImageIcon("back_Button.png").getImage();
 
 
 }
-    public void paint(Graphics g) {
+    public void paint (Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         ((Graphics2D) g).drawImage(backButton, 0,0,28,28 ,null);
     }
