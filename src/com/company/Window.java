@@ -1,12 +1,18 @@
 package com.company;
 
 import javax.swing.*;
+import java.awt.event.MouseEvent;
 
 
 public class Window extends JFrame {
     gamePanel gPanel;
     Window(){
-        gPanel = new gamePanel();
+        gPanel = new gamePanel() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+
+            }
+        };
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setTitle("Arkanoid Adventure");

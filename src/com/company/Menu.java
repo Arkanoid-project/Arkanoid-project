@@ -1,5 +1,4 @@
 package com.company;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -79,12 +78,14 @@ public class Menu implements MouseListener, MouseMotionListener {
                live_index=2;
            }
 
+
         }
        if(e.getX()< Exit_btn.getWidth(null)+666 && e.getX()>666) {
            if(e.getY()< Exit_btn.getHeight(null)+390 && e.getY() > 370){
                System.out.println("Exit");
            }
         }
+
     }
     @Override
     public void mousePressed(MouseEvent e) {

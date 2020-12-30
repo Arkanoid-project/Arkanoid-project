@@ -1,4 +1,5 @@
-/*
+package com.company;
+
 import javax.swing.*;
 
 public class myframe extends JFrame {
@@ -10,6 +11,9 @@ public class myframe extends JFrame {
         this.setSize(800,600);
         this.setVisible(true);
 
+
+
+
     }
 }
-*/
+
