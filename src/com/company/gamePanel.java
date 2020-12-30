@@ -1,7 +1,6 @@
 package com.company;
 
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -29,7 +28,8 @@ public abstract class gamePanel extends JPanel implements Runnable {
     Image prv_Button2 ;
     Image nxt_Button1 ;
     Image nxt_Button2 ;
-
+    Image bignxt_Button ;
+    Image bigprv_Button ;
     Menu gameMenu;
     Image backg;
     Image[] healthImage;
@@ -42,11 +42,11 @@ public abstract class gamePanel extends JPanel implements Runnable {
     Level lvl1;
     levels[] selectedLvl;
     int[][] settingsBtns_positions = {
-            {60,50},
-            {0, 280}, // awl next postion Lel ball
-            {0, 280}, //awl perives postion  lel ball
-            {0, 0},
-            {0,0}
+            {60,50}, // back button postion
+            {180, 280}, // prv button 1 postion Lel ball
+            {180, 480}, // prv button 2 postion  lel ball
+            {530, 280},  // nxt button 1 postion
+            {530,480}   // nxt button 2 postion
     };
     boolean []entered_settings_btns={false,false,false,false,false};
 
@@ -59,7 +59,8 @@ public abstract class gamePanel extends JPanel implements Runnable {
          prv_Button2 = new ImageIcon("prv_Button2.png").getImage();
          nxt_Button1 =  new ImageIcon("next_Button2.png").getImage() ;
          nxt_Button2 =  new ImageIcon("next_Button3.png").getImage();
-
+        bignxt_Button =  new ImageIcon("big_next_Button2.png").getImage();
+        bigprv_Button =  new ImageIcon("big_back_Button.png").getImage();
 
         gameMenu = new Menu(live_index);
     //set panel size
@@ -114,7 +115,7 @@ public abstract class gamePanel extends JPanel implements Runnable {
                 }
 
         }else if(live_index==settingsindex){
-            ((Graphics2D) g).drawImage(settingsBG, 0,0, null);
+            g.drawImage(settingsBG, 0,0, null);
 
             g.drawImage(backButton,settingsBtns_positions[0][0],settingsBtns_positions[0][1],null);
             g.drawImage(prv_Button1,settingsBtns_positions[1][0], settingsBtns_positions[1][1],null);
@@ -122,23 +123,25 @@ public abstract class gamePanel extends JPanel implements Runnable {
             g.drawImage(nxt_Button1,settingsBtns_positions[3][0], settingsBtns_positions[3][1],null);
             g.drawImage(nxt_Button2,settingsBtns_positions[4][0], settingsBtns_positions[4][1],null);
             
-            if(entered_settings_btns[0]){
+            if(entered_settings_btns[0])
+            {
 
-                g.drawImage(BigStart,settingsBtns_positions[0][0],settingsBtns_positions[0][1],null);
+                g.drawImage(bigprv_Button,settingsBtns_positions[0][0],settingsBtns_positions[0][1],null);
             }else if (entered_settings_btns[1]){
 
-                g.drawImage(BigSettings,settingsBtns_positions[1][0], settingsBtns_positions[1][1],null);
+                g.drawImage(bigprv_Button,settingsBtns_positions[1][0], settingsBtns_positions[1][1],null);
             }else if(entered_settings_btns[2]){
 
-                g.drawImage(BigScore,settingsBtns_positions[2][0], settingsBtns_positions[2][1],null);
+                g.drawImage(bigprv_Button,settingsBtns_positions[2][0], settingsBtns_positions[2][1],null);
             }else if(entered_settings_btns[3]){
 
-                g.drawImage(BigExit,settingsBtns_positions[3][0], settingsBtns_positions[3][1],null);
+                g.drawImage(bignxt_Button,settingsBtns_positions[3][0], settingsBtns_positions[3][1],null);
             }
             else if(entered_settings_btns[4]){
 
-                g.drawImage(BigExit,settingsBtns_positions[4][0], settingsBtns_positions[4][1],null);
+                g.drawImage(bignxt_Button,settingsBtns_positions[4][0], settingsBtns_positions[4][1],null);
             }
+            settings s = new settings();
 
           //  g2d.fillRect(15,15,800,600);
             //CustomPaintComponent backGround = new CustomPaintComponent();
@@ -306,37 +309,37 @@ paddle.keyReleased(e);
 class settings extends gamePanel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getX() < backButton.getWidth(null) + 60 && e.getX() > 60) {
+       if (e.getX() < backButton.getWidth(null) + 60 && e.getX() > 60) {
             if (e.getY() < backButton.getHeight(null) + 70 && e.getY() > 50) {
                 System.out.println("Back Button");
                 live_index = 0;
             }
         }
 
-        if(e.getX()<Start_img.getWidth(null)+366 && e.getX()>366 ) {
+        /*if(e.getX()<Start_img.getWidth(null)+366 && e.getX()>366 ) {
             if (e.getY()<Start_img.getHeight(null)+481 && e.getY()>451) {
-                System.out.println("Start level");
-                live_index = 1;
+                System.out.println("Prv ball");
+
             }
         }
         if(e.getX()< Score_btn.getWidth(null)+666 && e.getX()>666) {
             if (e.getY() < Score_btn.getHeight(null) + 270 && e.getY() > 240) {
-                System.out.println("Score");
+                System.out.println("next ball");
             }
         }
         if (e.getX()< Setting_btn.getWidth(null)+666 && e.getX()>666){
             if(e.getY()< Setting_btn.getHeight(null)+143 && e.getY() > 113){
-                System.out.println("Settings");
-                live_index=2;
+                System.out.println("prv paddle");
+
             }
 
 
         }
         if(e.getX()< Exit_btn.getWidth(null)+666 && e.getX()>666) {
             if(e.getY()< Exit_btn.getHeight(null)+390 && e.getY() > 370){
-                System.out.println("Exit");
+                System.out.println("next paddle");
             }
-        }
+        }*/
 
     }
 
@@ -359,14 +362,16 @@ class settings extends gamePanel implements MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
+
     @Override
     public void mouseMoved(MouseEvent e) {
 
-        if(e.getX() < backButton.getWidth(null)+366 && e.getX()>366 ) {
-            if (e.getY() < Start_img.getHeight(null)+471 && e.getY()>451) {
+        if(e.getX() < backButton.getWidth(null)+70 && e.getX()>60 ) {
+            if (e.getY() < backButton.getHeight(null)+58 && e.getY()>50) {
                 entered_settings_btns[0]=true;
             }
         }
+        /*
         if(e.getX()< Score_btn.getWidth(null)+666 && e.getX()>666) {
             if (e.getY() < Score_btn.getHeight(null) + 270 && e.getY() > 240) {
                 entered_settings_btns[2]=true;
@@ -388,6 +393,8 @@ class settings extends gamePanel implements MouseListener {
                 entered_settings_btns[4]=true;
             }
         }
+
+         */
         else
             {
             entered_settings_btns[0]=false;
@@ -397,5 +404,6 @@ class settings extends gamePanel implements MouseListener {
             entered_settings_btns[4]=false;
 
         }
+
     }
 }
