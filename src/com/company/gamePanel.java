@@ -1,11 +1,12 @@
 package com.company;
 
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class gamePanel extends JPanel implements Runnable{
     final int GameWidth=800;
@@ -21,6 +22,12 @@ public class gamePanel extends JPanel implements Runnable{
     powerup []P=new powerup[15];
     powerup recentP;
     int num_of_powerups=0;
+    int secondsPassed=0;
+    Image standard_img;
+    Timer Pwrtimer=new java.util.Timer();
+    boolean dlaser=false;
+    laser [] l=new laser[8];
+
 
     Menu gameMenu;
     Image backg;
@@ -50,7 +57,9 @@ public class gamePanel extends JPanel implements Runnable{
     //set ball nad paddle
      paddle = new Paddle(GameWidth,GameHeight);
      ball = new Ball(0,paddle,live_index);
-    //create new levels
+     standard_img=paddle.getPaddleImage();
+
+        //create new levels
      selectedLvl = new levels[6];
        for(int i=0;i<6;i++) {
            selectedLvl[i] = new levels();
@@ -81,12 +90,15 @@ public class gamePanel extends JPanel implements Runnable{
             lvl1.draw(g2d);
             ball.draw(g2d);
             if(powerup_here){
-                for (int i=0;i<num_of_powerups;i++) {
-
-                        P[i].draw(g);
-
+              for (int i=0;i<num_of_powerups;i++) {
+                    P[i].draw(g);
+              }
+            }
+            if (dlaser){
+                for (int i=0;i<laser.lnum;i++){
+                l[i].draw(g);
                 }
-                }
+            }
 
         }else if(live_index==settingsindex){
             g2d.fillRect(15,15,800,600);
@@ -187,17 +199,67 @@ public class gamePanel extends JPanel implements Runnable{
                             break A;
                         }
                     }
+
                  }
             }
         for(int i =0;i<num_of_powerups;i++) {
-
                 if(P[i].Px+P[i].width<=paddleCollider.x+paddleCollider.width&&P[i].Px>=paddleCollider.x){
-                    if(P[i].Py+P[i].height>=paddleCollider.y){
-                        P[i].Py=100;
+                    if(P[i].Py+P[i].height>=paddleCollider.y&&P[i].Py<=600){
+                        P[i].Py=900;
                     System.out.println("collide");
+                        switch (P[i].power_index){
+                            case 0 :
+                                //paddle width power up
+                                secondsPassed =0;
+                                Pwrtimer.scheduleAtFixedRate(new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        secondsPassed++;
+                                        System.out.println("seconds "+secondsPassed);
+                                    }
+                                }, 1000, 1000);
+                                paddle.paddleImage = new ImageIcon("Paddleplusplus.png").getImage();
+                                System.out.println("paddle plus plus");
+                                //done
+                                break;
+                            case 1 :
+                                //laser power up
+                                dlaser=true;
+                                l[laser.lnum]=new laser(paddle);
+                                System.out.println("laser");
+                                //waiting for the intersection tba
+                                break;
+                            case 2 :
+                                //speedy ball power up
+                                ball.ball_speed+=1;
+                                System.out.println("speed up");
+                                //done
+                                break;
+                            default:
+                                throw new IllegalStateException("Unexpected value: " + P[i].power_index);
+                        }
                     }
                 }
             }
+        if (secondsPassed>6) {
+            paddle.paddleImage =standard_img;
+            secondsPassed=0;
+
+        }
+        for(int i =0;i<lvl1.currentLvlBlock.length;i++) {
+            for (int j = 0; j < lvl1.currentLvlBlock[i].length; j++) {
+                Rectangle blockCollider = new Rectangle(lvl1.currentLvlBlock[i][j].px, lvl1.currentLvlBlock[i][j].py, lvl1.currentLvlBlock[i][j].getBlockWidth(), lvl1.currentLvlBlock[i][j].getBlockHeight());
+
+                if (dlaser) {
+                    for (int m = 0; m < laser.lnum; m++) {
+                        if (l[m].intersects(blockCollider)) {
+                            System.out.println("blockcollider");
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     public void setInitialLevelsSeq() {
@@ -240,6 +302,7 @@ for(int i=0;i<8;i++){
         public void keyPressed(KeyEvent e){
         paddle.getBallStatus(ball.isBallLaunched);
             paddle.keyPressed(e);
+
         }
         public void keyReleased(KeyEvent e){
 paddle.keyReleased(e);

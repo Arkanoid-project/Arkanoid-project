@@ -3,7 +3,7 @@ package com.company;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+
 
 public class Paddle{
     Image paddleImage;
@@ -16,7 +16,9 @@ public class Paddle{
         paddleImage = new ImageIcon("Paddle.png").getImage();
         setPaddleInitialPosition(GameWidth,GameHeight);
     }
-
+    public Image getPaddleImage(){
+        return this.paddleImage;
+    }
     public void setPaddleInitialPosition(int GameWidth,int GameHeight){
         paddle_xp = GameWidth/2 - (paddleImage.getWidth(null)/2);
         paddle_yp = GameHeight - 50;
