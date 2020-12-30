@@ -8,10 +8,6 @@ public class Window extends JFrame {
     gamePanel gPanel;
     Window(){
         gPanel = new gamePanel() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-
-            }
         };
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);

@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -295,6 +296,10 @@ for(int i=0;i<8;i++){
                 delta--;
             }
         }
+
+    }
+
+    public void mouseMoved(MouseEvent e) {
 
     }
 

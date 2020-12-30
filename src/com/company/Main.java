@@ -7,7 +7,7 @@ import java.io.InputStream;
 public class Main {
 
     public static void main(String[] args) throws IOException, LineUnavailableException {
-        File file = new File("Shawn Mendes, Camila Cabello - Señorita.mp3");
+        /*File file = new File("Shawn Mendes, Camila Cabello - Señorita.mp3");
         if (file.exists()) {
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
             InputStream is = classloader.getResourceAsStream("Shawn Mendes, Camila Cabello - Señorita.mp3");
@@ -18,7 +18,7 @@ public class Main {
             // load the sound into memory (a Clip)
             clip = AudioSystem.getClip();
             clip.open(sound);
-        }
+        }*/
         Window window = new Window();
     boolean isLvlCreated = false;
     }
