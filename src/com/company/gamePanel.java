@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,9 +24,9 @@ public class gamePanel extends JPanel implements Runnable{
     int num_of_powerups=0;
     int secondsPassed=0;
     Image standard_img;
-    Timer Pwrtimer=new java.util.Timer();
     boolean dlaser=false;
     laser [] l=new laser[8];
+    Timer Pwrtimer=new Timer();
 
 
     Menu gameMenu;
@@ -102,7 +101,7 @@ public class gamePanel extends JPanel implements Runnable{
             }
 
         }else if(live_index==settingsindex){
-            g2d.fillRect(15,15,800,600);
+            g2d.fillRect(0,0,800,600);
 
             g2d.dispose();
         }
@@ -179,7 +178,6 @@ public class gamePanel extends JPanel implements Runnable{
                 for (int j =0;j<lvl1.currentLvlBlock[i].length;j++) {
                     Rectangle blockCollider = new Rectangle(lvl1.currentLvlBlock[i][j].px,lvl1.currentLvlBlock[i][j].py,lvl1.currentLvlBlock[i][j].getBlockWidth(),lvl1.currentLvlBlock[i][j].getBlockHeight());
                     if(ballCollider.intersects(blockCollider)) {
-
                         recentP = new powerup(lvl1.currentLvlBlock[i][j]);
                         if(lvl1.currentLvlBlock[i][j].has_powerup){
                             P[num_of_powerups] = new powerup(lvl1.currentLvlBlock[i][j]);
@@ -188,60 +186,57 @@ public class gamePanel extends JPanel implements Runnable{
                         }
                         isInversed = false;
                         liveScore += 5;
-                       // lvl1.currentLvlBlock[i][j].setHealth(lvl1.currentLvlBlock[i][j].getHealth()-1);
                         lvl1.currentLvlBlock[i][j].setBlockShape(0);
                         selectedLvl[Level.current_lvl].lvl[i][j] = 0;
                         if((ballCollider.x + ballCollider.getWidth()-2 <= blockCollider.getX()
                             || ballCollider.x+2 >= blockCollider.getX()+blockCollider.getWidth())){
                             ball.ball_xv *= -1;
-
                         }else{
                             ball.ball_yv *= -1;
                             break A;
                         }
                     }
-
                  }
             }
         for(int i =0;i<num_of_powerups;i++) {
-                if(P[i].Px+P[i].width<=paddleCollider.x+paddleCollider.width&&P[i].Px>=paddleCollider.x){
-                    if(P[i].Py+P[i].height>=paddleCollider.y&&P[i].Py<=600){
-                        P[i].Py=900;
+            if(P[i].Px+P[i].width<=paddleCollider.x+paddleCollider.width&&P[i].Px>=paddleCollider.x){
+                if(P[i].Py+P[i].height>=paddleCollider.y&&P[i].Py<=600){
+                    P[i].Py=900;
                     System.out.println("collide");
-                        switch (P[i].power_index){
-                            case 0 :
-                                //paddle width power up
-                                secondsPassed =0;
-                                Pwrtimer.scheduleAtFixedRate(new TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        secondsPassed++;
-                                        System.out.println("seconds "+secondsPassed);
-                                    }
-                                }, 1000, 1000);
-                                paddle.paddleImage = new ImageIcon("Paddleplusplus.png").getImage();
-                                System.out.println("paddle plus plus");
-                                //done
-                                break;
-                            case 1 :
-                                //laser power up
-                                dlaser=true;
-                                l[laser.lnum]=new laser(paddle);
-                                System.out.println("laser");
-                                //waiting for the intersection tba
-                                break;
-                            case 2 :
-                                //speedy ball power up
-                                ball.ball_speed+=1;
-                                System.out.println("speed up");
-                                //done
-                                break;
-                            default:
-                                throw new IllegalStateException("Unexpected value: " + P[i].power_index);
-                        }
+                    switch (P[i].power_index){
+                        case 0 :
+                            //paddle width power up
+                            secondsPassed =0;
+                            Pwrtimer.scheduleAtFixedRate(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    secondsPassed++;
+                                    System.out.println("seconds "+secondsPassed);
+                                }
+                            }, 1000, 1000);
+                            paddle.paddleImage = new ImageIcon("Paddleplusplus.png").getImage();
+                            System.out.println("paddle plus plus");
+                            //done
+                            break;
+                        case 1 :
+                            //laser power up
+                            dlaser=true;
+                            l[laser.lnum]=new laser(paddle);
+                            System.out.println("laser");
+                            //waiting for the intersection tba
+                            break;
+                        case 2 :
+                            //speedy ball power up
+                            ball.ball_speed+=1;
+                            System.out.println("speed up");
+                            //done
+                            break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + P[i].power_index);
                     }
                 }
             }
+        }
         if (secondsPassed>6) {
             paddle.paddleImage =standard_img;
             secondsPassed=0;
@@ -260,6 +255,7 @@ public class gamePanel extends JPanel implements Runnable{
                 }
             }
         }
+
 
     }
 
@@ -296,10 +292,6 @@ for(int i=0;i<8;i++){
                 delta--;
             }
         }
-
-    }
-
-    public void mouseMoved(MouseEvent e) {
 
     }
 

@@ -8,7 +8,7 @@ public class laser extends Rectangle  {
     Image laser=new ImageIcon("laiser.png").getImage();
     int Px;
     int Py;
-    public static int lnum=0;
+    public static int lnum;
     public laser(Paddle p){
         this.Px=p.paddle_xp;
         this.Py=p.paddle_yp;
@@ -25,5 +25,10 @@ public class laser extends Rectangle  {
         this.Py-=2;
     }
 
+    public laser setpos(Paddle paddle){
+        this.Py =paddle.paddle_yp;
+        this.Px=paddle.paddle_xp;
+        return this;
+    }
 
 }
