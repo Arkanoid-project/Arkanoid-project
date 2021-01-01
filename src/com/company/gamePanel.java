@@ -7,9 +7,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseListener;
 import java.util.Timer;
 import java.util.TimerTask;
-
 
 public class gamePanel extends JPanel implements Runnable{
     final int GameWidth=800;
@@ -27,7 +27,6 @@ public class gamePanel extends JPanel implements Runnable{
     int num_of_powerups=0;
     int secondsPassed=0;
     Image standard_img;
-    Timer Pwrtimer=new java.util.Timer();
     boolean dlaser=false;
     laser [] l=new laser[8];
     Image backButton ;
@@ -37,6 +36,9 @@ public class gamePanel extends JPanel implements Runnable{
     Image nxt_Button2 ;
     Image bignxt_Button ;
     Image bigprv_Button ;
+    Timer Pwrtimer=new Timer();
+
+
     Menu gameMenu;
     Image backg;
     Image settingsBG;
@@ -235,7 +237,6 @@ public class gamePanel extends JPanel implements Runnable{
                 for (int j =0;j<lvl1.currentLvlBlock[i].length;j++) {
                     Rectangle blockCollider = new Rectangle(lvl1.currentLvlBlock[i][j].px,lvl1.currentLvlBlock[i][j].py,lvl1.currentLvlBlock[i][j].getBlockWidth(),lvl1.currentLvlBlock[i][j].getBlockHeight());
                     if(ballCollider.intersects(blockCollider)) {
-
                         recentP = new powerup(lvl1.currentLvlBlock[i][j]);
                         if(lvl1.currentLvlBlock[i][j].has_powerup){
                             P[num_of_powerups] = new powerup(lvl1.currentLvlBlock[i][j]);
@@ -244,13 +245,11 @@ public class gamePanel extends JPanel implements Runnable{
                         }
                         isInversed = false;
                         liveScore += 5;
-                       // lvl1.currentLvlBlock[i][j].setHealth(lvl1.currentLvlBlock[i][j].getHealth()-1);
                         lvl1.currentLvlBlock[i][j].setBlockShape(0);
                         selectedLvl[Level.current_lvl].lvl[i][j] = 0;
                         if((ballCollider.x + ballCollider.getWidth()-2 <= blockCollider.getX()
                             || ballCollider.x+2 >= blockCollider.getX()+blockCollider.getWidth())){
                             ball.ball_xv *= -1;
-
                         }else{
                             ball.ball_yv *= -1;
                             break A;
@@ -260,44 +259,44 @@ public class gamePanel extends JPanel implements Runnable{
                  }
             }
         for(int i =0;i<num_of_powerups;i++) {
-                if(P[i].Px+P[i].width<=paddleCollider.x+paddleCollider.width&&P[i].Px>=paddleCollider.x){
-                    if(P[i].Py+P[i].height>=paddleCollider.y&&P[i].Py<=600){
-                        P[i].Py=900;
+            if(P[i].Px+P[i].width<=paddleCollider.x+paddleCollider.width&&P[i].Px>=paddleCollider.x){
+                if(P[i].Py+P[i].height>=paddleCollider.y&&P[i].Py<=600){
+                    P[i].Py=900;
                     System.out.println("collide");
-                        switch (P[i].power_index){
-                            case 0 :
-                                //paddle width power up
-                                secondsPassed =0;
-                                Pwrtimer.scheduleAtFixedRate(new TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        secondsPassed++;
-                                        System.out.println("seconds "+secondsPassed);
-                                    }
-                                }, 1000, 1000);
-                                paddle.paddleImage = new ImageIcon("Paddleplusplus.png").getImage();
-                                System.out.println("paddle plus plus");
-                                //done
-                                break;
-                            case 1 :
-                                //laser power up
-                                dlaser=true;
-                                l[laser.lnum]=new laser(paddle);
-                                System.out.println("laser");
-                                //waiting for the intersection tba
-                                break;
-                            case 2 :
-                                //speedy ball power up
-                                ball.ball_speed+=1;
-                                System.out.println("speed up");
-                                //done
-                                break;
-                            default:
-                                throw new IllegalStateException("Unexpected value: " + P[i].power_index);
-                        }
+                    switch (P[i].power_index){
+                        case 0 :
+                            //paddle width power up
+                            secondsPassed =0;
+                            Pwrtimer.scheduleAtFixedRate(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    secondsPassed++;
+                                    System.out.println("seconds "+secondsPassed);
+                                }
+                            }, 1000, 1000);
+                            paddle.paddleImage = new ImageIcon("Paddleplusplus.png").getImage();
+                            System.out.println("paddle plus plus");
+                            //done
+                            break;
+                        case 1 :
+                            //laser power up
+                            dlaser=true;
+                            l[laser.lnum]=new laser(paddle);
+                            System.out.println("laser");
+                            //waiting for the intersection tba
+                            break;
+                        case 2 :
+                            //speedy ball power up
+                            ball.ball_speed+=1;
+                            System.out.println("speed up");
+                            //done
+                            break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + P[i].power_index);
                     }
                 }
             }
+        }
         if (secondsPassed>6) {
             paddle.paddleImage =standard_img;
             secondsPassed=0;
@@ -316,6 +315,7 @@ public class gamePanel extends JPanel implements Runnable{
                 }
             }
         }
+
 
     }
 
@@ -381,30 +381,31 @@ class settings extends gamePanel implements MouseListener {
             }
         }
 
-        if(e.getX()<prv_Button1.getWidth(null)+366 && e.getX()>366 ) {
-            if (e.getY()<prv_Button1.getHeight(null)+481 && e.getY()>451) {
+        if (e.getX() < prv_Button1.getWidth(null) + 366 && e.getX() > 366) {
+            if (e.getY() < prv_Button1.getHeight(null) + 481 && e.getY() > 451) {
                 System.out.println("Prv ball");
             }
         }
-        if(e.getX()< nxt_Button1.getWidth(null)+666 && e.getX()>666) {
+        if (e.getX() < nxt_Button1.getWidth(null) + 666 && e.getX() > 666) {
             if (e.getY() < nxt_Button1.getHeight(null) + 270 && e.getY() > 240) {
                 System.out.println("next ball");
             }
         }
-        if (e.getX()< prv_Button2.getWidth(null)+666 && e.getX()>666){
-            if(e.getY()< prv_Button2.getHeight(null)+143 && e.getY() > 113){
+        if (e.getX() < prv_Button2.getWidth(null) + 666 && e.getX() > 666) {
+            if (e.getY() < prv_Button2.getHeight(null) + 143 && e.getY() > 113) {
                 System.out.println("prv paddle");
             }
 
 
         }
-        if(e.getX()< nxt_Button2.getWidth(null)+666 && e.getX()>666) {
-            if(e.getY()< nxt_Button2.getHeight(null)+390 && e.getY() > 370){
+        if (e.getX() < nxt_Button2.getWidth(null) + 666 && e.getX() > 666) {
+            if (e.getY() < nxt_Button2.getHeight(null) + 390 && e.getY() > 370) {
                 System.out.println("next paddle");
             }
         }
 
     }
+
     @Override
     public void mousePressed(MouseEvent e) {
 
@@ -424,6 +425,7 @@ class settings extends gamePanel implements MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
+
     @Override
     public void mouseMoved(MouseEvent e) {
 
@@ -462,3 +464,4 @@ class settings extends gamePanel implements MouseListener {
             }
         }
     }
+}
