@@ -274,7 +274,7 @@ public class gamePanel extends JPanel implements Runnable{
                                     System.out.println("seconds "+secondsPassed);
                                 }
                             }, 1000, 1000);
-                            paddle.paddleImage = new ImageIcon("Paddleplusplus.png").getImage();
+                            this.paddle.paddleImage = new ImageIcon("Paddleplusplus.png").getImage();
                             System.out.println("paddle plus plus");
                             //done
                             break;
@@ -304,19 +304,25 @@ public class gamePanel extends JPanel implements Runnable{
         }
         for(int i =0;i<lvl1.currentLvlBlock.length;i++) {
             for (int j = 0; j < lvl1.currentLvlBlock[i].length; j++) {
-                Rectangle blockCollider = new Rectangle(lvl1.currentLvlBlock[i][j].px, lvl1.currentLvlBlock[i][j].py, lvl1.currentLvlBlock[i][j].getBlockWidth(), lvl1.currentLvlBlock[i][j].getBlockHeight());
-
+                Rectangle blockCollider = new Rectangle(lvl1.currentLvlBlock[i][j].px, lvl1.currentLvlBlock[i][j].py,
+                        lvl1.currentLvlBlock[i][j].getBlockWidth(), lvl1.currentLvlBlock[i][j].getBlockHeight());
                 if (dlaser) {
+
                     for (int m = 0; m < powerup.lnum; m++) {
-                        if (l[m].intersects(blockCollider)) {
+                        if (l[m].Px>=blockCollider.x&&l[m].Px<=blockCollider.x+blockCollider.width) {
+                            if(l[m].Py>=blockCollider.y&&l[m].Py<=blockCollider.y+blockCollider.height){
+                                lvl1.currentLvlBlock[i][j].setHealth(0);
+                                l[m].Py=9000;
                             System.out.println("blockcollider");
+
+
+                            }
                         }
                     }
                 }
             }
         }
     }
-
     public void setInitialLevelsSeq() {
         int[][] Tarr = {
                 {1,0,1,0,0,1,0,1},
@@ -352,7 +358,6 @@ for(int i=0;i<8;i++){
         }
 
     }
-
     public class  ActionL extends KeyAdapter {
         public void keyPressed(KeyEvent e){
         paddle.getBallStatus(ball.isBallLaunched);
@@ -364,7 +369,6 @@ paddle.keyReleased(e);
         }
     }
 }
-
 class settings extends gamePanel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -374,7 +378,6 @@ class settings extends gamePanel implements MouseListener {
                 live_index = 0;
             }
         }
-
         if (e.getX() < prv_Button1.getWidth(null) + 366 && e.getX() > 366) {
             if (e.getY() < prv_Button1.getHeight(null) + 481 && e.getY() > 451) {
                 System.out.println("Prv ball");
@@ -389,8 +392,6 @@ class settings extends gamePanel implements MouseListener {
             if (e.getY() < prv_Button2.getHeight(null) + 143 && e.getY() > 113) {
                 System.out.println("prv paddle");
             }
-
-
         }
         if (e.getX() < nxt_Button2.getWidth(null) + 666 && e.getX() > 666) {
             if (e.getY() < nxt_Button2.getHeight(null) + 390 && e.getY() > 370) {
@@ -399,25 +400,12 @@ class settings extends gamePanel implements MouseListener {
         }
 
     }
-
     @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
+    public void mousePressed(MouseEvent e) {}
     @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
+    public void mouseReleased(MouseEvent e) {}
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
+    public void mouseEntered(MouseEvent e) {}
     @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
+    public void mouseExited(MouseEvent e) {}
 }
