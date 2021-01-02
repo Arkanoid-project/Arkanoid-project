@@ -7,7 +7,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseListener;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -28,7 +28,7 @@ public class gamePanel extends JPanel implements Runnable{
     int secondsPassed=0;
     Image standard_img;
     boolean dlaser=false;
-    laser [] l=new laser[8];
+    powerup [] l=new powerup[8];
     Image backButton ;
     Image prv_Button1 ;
     Image prv_Button2 ;
@@ -126,7 +126,7 @@ public class gamePanel extends JPanel implements Runnable{
               }
             }
             if (dlaser){
-                for (int i=0;i<laser.lnum;i++){
+                for (int i=0;i<powerup.lnum;i++){
                 l[i].draw(g);
                 }
             }
@@ -281,7 +281,7 @@ public class gamePanel extends JPanel implements Runnable{
                         case 1 :
                             //laser power up
                             dlaser=true;
-                            l[laser.lnum]=new laser(paddle);
+                            l[powerup.lnum]=new powerup(paddle);
                             System.out.println("laser");
                             //waiting for the intersection tba
                             break;
@@ -307,7 +307,7 @@ public class gamePanel extends JPanel implements Runnable{
                 Rectangle blockCollider = new Rectangle(lvl1.currentLvlBlock[i][j].px, lvl1.currentLvlBlock[i][j].py, lvl1.currentLvlBlock[i][j].getBlockWidth(), lvl1.currentLvlBlock[i][j].getBlockHeight());
 
                 if (dlaser) {
-                    for (int m = 0; m < laser.lnum; m++) {
+                    for (int m = 0; m < powerup.lnum; m++) {
                         if (l[m].intersects(blockCollider)) {
                             System.out.println("blockcollider");
                         }
@@ -315,8 +315,6 @@ public class gamePanel extends JPanel implements Runnable{
                 }
             }
         }
-
-
     }
 
     public void setInitialLevelsSeq() {
@@ -352,10 +350,6 @@ for(int i=0;i<8;i++){
                 delta--;
             }
         }
-
-    }
-
-    public void mouseMoved(MouseEvent e) {
 
     }
 
@@ -426,42 +420,4 @@ class settings extends gamePanel implements MouseListener {
 
     }
 
-    @Override
-    public void mouseMoved(MouseEvent e) {
-
-        if (e.getX() < backButton.getWidth(null) + 70 && e.getX() > 60) {
-            if (e.getY() < backButton.getHeight(null) + 58 && e.getY() > 50) {
-                entered_settings_btns[0] = true;
-            }
-        }
-        if (e.getX() < prv_Button1.getWidth(null) + 666 && e.getX() > 666) {
-            if (e.getY() < prv_Button1.getHeight(null) + 270 && e.getY() > 240) {
-                entered_settings_btns[1] = true;
-            }
-        }
-        if (e.getX() < prv_Button2.getWidth(null) + 666 && e.getX() > 666) {
-            if (e.getY() < prv_Button2.getHeight(null) + 143 && e.getY() > 113) {
-                entered_settings_btns[2] = true;
-            }
-
-        }
-        if (e.getX() < nxt_Button1.getWidth(null) + 666 && e.getX() > 666) {
-            if (e.getY() < nxt_Button1.getHeight(null) + 390 && e.getY() > 370) {
-                entered_settings_btns[3] = true;
-            }
-
-            if (e.getX() < nxt_Button2.getWidth(null) + 666 && e.getX() > 666) {
-                if (e.getY() < nxt_Button2.getHeight(null) + 390 && e.getY() > 370) {
-                    entered_settings_btns[4] = true;
-                }
-            } else {
-                entered_settings_btns[0] = false;
-                entered_settings_btns[1] = false;
-                entered_settings_btns[2] = false;
-                entered_settings_btns[3] = false;
-                entered_settings_btns[4] = false;
-
-            }
-        }
-    }
 }
