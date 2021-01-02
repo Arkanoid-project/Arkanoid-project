@@ -5,6 +5,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,11 +29,19 @@ public class gamePanel extends JPanel implements Runnable{
     Image standard_img;
     boolean dlaser=false;
     laser [] l=new laser[8];
+    Image backButton ;
+    Image prv_Button1 ;
+    Image prv_Button2 ;
+    Image nxt_Button1 ;
+    Image nxt_Button2 ;
+    Image bignxt_Button ;
+    Image bigprv_Button ;
     Timer Pwrtimer=new Timer();
 
 
     Menu gameMenu;
     Image backg;
+    Image settingsBG;
     Image[] healthImage;
     Paddle paddle;
     Ball ball;
@@ -41,11 +52,31 @@ public class gamePanel extends JPanel implements Runnable{
     Level lvl1;
     levels[] selectedLvl;
 
+    int[][] settingsBtns_positions = {
+            {60,50}, // back button postion
+            {180, 280}, // prv button 1 postion Lel ball
+            {180, 480}, // prv button 2 postion  lel ball
+            {530, 280},  // nxt button 1 postion
+            {530,480}   // nxt button 2 postion
+    };
+    boolean []entered_settings_btns={false,false,false,false,false};
+
     gamePanel(){
         gameMenu = new Menu(live_index);
     //set panel size
         gameSize = new Dimension(GameWidth,GameHeight);
         this.setPreferredSize(gameSize);
+
+        settingsBG =  new ImageIcon("settingsBG.jpg").getImage();
+        // set back & next buttons
+        backButton = new ImageIcon("back_Button.png").getImage();
+        prv_Button1 = new ImageIcon("prv_Button1.png").getImage() ;
+        prv_Button2 = new ImageIcon("prv_Button2.png").getImage();
+        nxt_Button1 =  new ImageIcon("next_Button2.png").getImage() ;
+        nxt_Button2 =  new ImageIcon("next_Button3.png").getImage();
+        bignxt_Button =  new ImageIcon("big_next_Button2.png").getImage();
+        bigprv_Button =  new ImageIcon("big_back_Button.png").getImage();
+
 
      //Game Background set
      backg = new ImageIcon("background1.jpg").getImage();
@@ -100,10 +131,38 @@ public class gamePanel extends JPanel implements Runnable{
                 }
             }
 
-        }else if(live_index==settingsindex){
-            g2d.fillRect(0,0,800,600);
+        }
+        else if(live_index==settingsindex){
 
-            g2d.dispose();
+            g.drawImage(settingsBG, 0,0, null);
+
+            g.drawImage(backButton,settingsBtns_positions[0][0],settingsBtns_positions[0][1],null);
+            g.drawImage(prv_Button1,settingsBtns_positions[1][0], settingsBtns_positions[1][1],null);
+            g.drawImage(prv_Button2,settingsBtns_positions[2][0], settingsBtns_positions[2][1],null);
+            g.drawImage(nxt_Button1,settingsBtns_positions[3][0], settingsBtns_positions[3][1],null);
+            g.drawImage(nxt_Button2,settingsBtns_positions[4][0], settingsBtns_positions[4][1],null);
+
+            if(entered_settings_btns[0])
+            {
+                g.drawImage(bigprv_Button,settingsBtns_positions[0][0],settingsBtns_positions[0][1],null);
+            }
+            else if (entered_settings_btns[1])
+            {
+                g.drawImage(bigprv_Button,settingsBtns_positions[1][0], settingsBtns_positions[1][1],null);
+            }
+            else if(entered_settings_btns[2])
+            {
+                g.drawImage(bigprv_Button,settingsBtns_positions[2][0], settingsBtns_positions[2][1],null);
+            }
+            else if(entered_settings_btns[3])
+            {
+                g.drawImage(bignxt_Button,settingsBtns_positions[3][0], settingsBtns_positions[3][1],null);
+            }
+            else if(entered_settings_btns[4])
+            {
+                g.drawImage(bignxt_Button,settingsBtns_positions[4][0], settingsBtns_positions[4][1],null);
+            }
+            settings s = new settings();
         }
     }
 
@@ -196,6 +255,7 @@ public class gamePanel extends JPanel implements Runnable{
                             break A;
                         }
                     }
+
                  }
             }
         for(int i =0;i<num_of_powerups;i++) {
@@ -295,6 +355,10 @@ for(int i=0;i<8;i++){
 
     }
 
+    public void mouseMoved(MouseEvent e) {
+
+    }
+
     public class  ActionL extends KeyAdapter {
         public void keyPressed(KeyEvent e){
         paddle.getBallStatus(ball.isBallLaunched);
@@ -307,3 +371,97 @@ paddle.keyReleased(e);
     }
 }
 
+class settings extends gamePanel implements MouseListener {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getX() < backButton.getWidth(null) + 60 && e.getX() > 60) {
+            if (e.getY() < backButton.getHeight(null) + 70 && e.getY() > 50) {
+                System.out.println("Back Button");
+                live_index = 0;
+            }
+        }
+
+        if (e.getX() < prv_Button1.getWidth(null) + 366 && e.getX() > 366) {
+            if (e.getY() < prv_Button1.getHeight(null) + 481 && e.getY() > 451) {
+                System.out.println("Prv ball");
+            }
+        }
+        if (e.getX() < nxt_Button1.getWidth(null) + 666 && e.getX() > 666) {
+            if (e.getY() < nxt_Button1.getHeight(null) + 270 && e.getY() > 240) {
+                System.out.println("next ball");
+            }
+        }
+        if (e.getX() < prv_Button2.getWidth(null) + 666 && e.getX() > 666) {
+            if (e.getY() < prv_Button2.getHeight(null) + 143 && e.getY() > 113) {
+                System.out.println("prv paddle");
+            }
+
+
+        }
+        if (e.getX() < nxt_Button2.getWidth(null) + 666 && e.getX() > 666) {
+            if (e.getY() < nxt_Button2.getHeight(null) + 390 && e.getY() > 370) {
+                System.out.println("next paddle");
+            }
+        }
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+        if (e.getX() < backButton.getWidth(null) + 70 && e.getX() > 60) {
+            if (e.getY() < backButton.getHeight(null) + 58 && e.getY() > 50) {
+                entered_settings_btns[0] = true;
+            }
+        }
+        if (e.getX() < prv_Button1.getWidth(null) + 666 && e.getX() > 666) {
+            if (e.getY() < prv_Button1.getHeight(null) + 270 && e.getY() > 240) {
+                entered_settings_btns[1] = true;
+            }
+        }
+        if (e.getX() < prv_Button2.getWidth(null) + 666 && e.getX() > 666) {
+            if (e.getY() < prv_Button2.getHeight(null) + 143 && e.getY() > 113) {
+                entered_settings_btns[2] = true;
+            }
+
+        }
+        if (e.getX() < nxt_Button1.getWidth(null) + 666 && e.getX() > 666) {
+            if (e.getY() < nxt_Button1.getHeight(null) + 390 && e.getY() > 370) {
+                entered_settings_btns[3] = true;
+            }
+
+            if (e.getX() < nxt_Button2.getWidth(null) + 666 && e.getX() > 666) {
+                if (e.getY() < nxt_Button2.getHeight(null) + 390 && e.getY() > 370) {
+                    entered_settings_btns[4] = true;
+                }
+            } else {
+                entered_settings_btns[0] = false;
+                entered_settings_btns[1] = false;
+                entered_settings_btns[2] = false;
+                entered_settings_btns[3] = false;
+                entered_settings_btns[4] = false;
+
+            }
+        }
+    }
+}
